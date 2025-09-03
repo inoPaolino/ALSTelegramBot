@@ -3,9 +3,6 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 import os
-from dotenv import load_dotenv
-
-load_dotenv()  # carica le variabili dal file .env
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 APEX_API_KEY = os.getenv("APEX_API_KEY")
@@ -37,3 +34,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
