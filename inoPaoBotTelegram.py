@@ -4,7 +4,6 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 
 import threading
 import http.server
-import socketserver
 import os
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -36,17 +35,18 @@ def main():
     app.run_polling()
     
 def keep_alive():
-    port = int(os.environ.get("PORT", 10000))  # Render di solito passa la porta in $PORT
+    port = int(os.environ.get("PORT", 10000))
     handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("", port), handler) as httpd:
-        print(f"Keep-alive server listening on port {port}")
-        httpd.serve_forever()
+    httpd = http.server.ThreadingHTTPServer(("", port), handler)
+    print(f"Keep-alive server listening on port {port}")
+    httpd.serve_forever()
         
 if __name__ == "__main__":
     # Avvia il bot in un thread separato
     threading.Thread(target=keep_alive, daemon=True).start()
     # Avvia il server HTTP finto
     keep_alive()
+
 
 
 
