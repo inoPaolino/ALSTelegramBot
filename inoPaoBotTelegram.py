@@ -45,7 +45,8 @@ if __name__ == "__main__":
     # Avvia il bot in un thread separato
     threading.Thread(target=keep_alive, daemon=True).start()
     # Avvia il server HTTP finto
-    keep_alive()
+    main()
+
 
 
 
