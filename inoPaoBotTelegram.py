@@ -28,10 +28,18 @@ def get_predator_cap():
 async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = get_predator_cap()
     await update.message.reply_text(message)
-
+    
+async def keepi_api_alive(context: ContextTypes.DEFAULT_TYPE):
+    _ = get_predator_cap()
+    # non succede nulla, serve solo per tenere il traffico attivo di dati
+    print("API pingata")
+    
 def main():
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("pred", pred))
+    job_queue = app.job_queue
+    job_queue.run_repeating(keep_api_alive, interval=600, first=10)
+    
     app.run_polling()
     
 def keep_alive():
