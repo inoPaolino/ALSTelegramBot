@@ -54,9 +54,7 @@ def main():
 
     job_queue = app.job_queue
     job_queue.run_repeating(keep_api_alive, interval=600, first=10)
-    
-    app.run_polling()
-    
+        
 def keep_alive():
     port = int(os.environ.get("PORT", 10000))
     handler = http.server.SimpleHTTPRequestHandler
@@ -69,6 +67,7 @@ if __name__ == "__main__":
     threading.Thread(target=keep_alive, daemon=True).start()
     # Avvia il server HTTP finto
     main()
+
 
 
 
