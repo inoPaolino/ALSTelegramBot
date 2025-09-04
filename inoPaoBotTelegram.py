@@ -9,7 +9,10 @@ import os
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 APEX_API_KEY = os.getenv("APEX_API_KEY")
 
+latest_pred_data = "⚠️ Nessun dato ancora disponibile, riprova tra poco!"
+
 def get_predator_cap():
+    global latest_pred_data
     url = f"https://api.mozambiquehe.re/predator?auth={APEX_API_KEY}"
     try:
         response = requests.get(url, timeout=5)
@@ -19,15 +22,18 @@ def get_predator_cap():
         pc = data["RP"]["PC"]["val"]
         ps = data["RP"]["PS4"]["val"]
         xbox = data["RP"]["X1"]["val"]
-
-        return f"🏆 Predator Cap:\n💻 PC: {pc} RP\n🎮 PlayStation: {ps} RP\n🕹️ Xbox: {xbox} RP"
-
+        
+        latest_pred_data = (
+            f"🏆 Predator Cap:\n"
+            f"💻 PC: {pc} RP\n🎮 PlayStation: {ps} RP\n🕹️ Xbox: {xbox} RP"
+        )
+        print("✅ Dati aggiornati dall'API")
+        
     except Exception as e:
-        return f"⚠️ Errore durante la richiesta: {e}"
+        print(f"⚠️ Errore durante la richiesta: {e}")
 
 async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = get_predator_cap()
-    await update.message.reply_text(message)
+    await update.message.reply_text(latest_pred_data)
     
 async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
     _ = get_predator_cap()
@@ -54,6 +60,7 @@ if __name__ == "__main__":
     threading.Thread(target=keep_alive, daemon=True).start()
     # Avvia il server HTTP finto
     main()
+
 
 
 
