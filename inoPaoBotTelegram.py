@@ -41,11 +41,12 @@ def keep_alive():
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"Keep-alive server listening on port {port}")
         httpd.serve_forever()
-
+        
 if __name__ == "__main__":
     # Avvia il bot in un thread separato
-    threading.Thread(target=main).start()
+    threading.Thread(target=keep_alive, daemon=True).start()
     # Avvia il server HTTP finto
     keep_alive()
+
 
 
