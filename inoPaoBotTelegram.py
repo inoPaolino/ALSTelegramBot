@@ -29,7 +29,7 @@ async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = get_predator_cap()
     await update.message.reply_text(message)
     
-async def keepi_api_alive(context: ContextTypes.DEFAULT_TYPE):
+async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
     _ = get_predator_cap()
     # non succede nulla, serve solo per tenere il traffico attivo di dati
     print("API pingata")
@@ -54,6 +54,7 @@ if __name__ == "__main__":
     threading.Thread(target=keep_alive, daemon=True).start()
     # Avvia il server HTTP finto
     main()
+
 
 
 
