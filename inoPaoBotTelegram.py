@@ -54,6 +54,7 @@ def main():
 
     job_queue = app.job_queue
     job_queue.run_repeating(keep_api_alive, interval=600, first=10)
+    threading.Thread(target=app.run_polling, daemon=True).start()
         
 def keep_alive():
     port = int(os.environ.get("PORT", 10000))
@@ -63,10 +64,10 @@ def keep_alive():
     httpd.serve_forever()
         
 if __name__ == "__main__":
-    # Avvia il bot in un thread separato
     main()
     # Avvia il server HTTP finto
     keep_alive()
+
 
 
 
