@@ -53,7 +53,7 @@ def main():
     app.add_error_handler(error_handler)
     
     get_predator_cap()
-    job_queue = app.job_queue
+
     job_queue.run_repeating(keep_api_alive, interval=600, first=10)
     app.run_polling()
         
@@ -68,6 +68,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
