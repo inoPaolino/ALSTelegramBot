@@ -43,7 +43,7 @@ async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(chat_id=update.effective_chat.id, text=latest_pred_data)
         
 async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
-    _ = get_predator_cap()
+    get_predator_cap()
     # non succede nulla, serve solo per tenere il traffico attivo di dati
     print("API pingata")
     
@@ -51,7 +51,8 @@ def main():
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("pred", pred))
     app.add_error_handler(error_handler)
-
+    
+    get_predator_cap()
     job_queue = app.job_queue
     job_queue.run_repeating(keep_api_alive, interval=600, first=10)
     app.run_polling()
@@ -64,10 +65,10 @@ def keep_alive():
     httpd.serve_forever()
         
 if __name__ == "__main__":
-    import asyncio
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
