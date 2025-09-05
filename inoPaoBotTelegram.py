@@ -54,7 +54,7 @@ def main():
     
     get_predator_cap()
 
-    job_queue.run_repeating(keep_api_alive, interval=600, first=10)
+    app.job_queue.run_repeating(keep_api_alive, interval=600, first=10)
     app.run_polling()
         
 def keep_alive():
