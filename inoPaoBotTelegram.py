@@ -21,7 +21,7 @@ async def get_predator_cap():
                 
         #response = requests.get(url, timeout=5)
         #response.raise_for_status()
-                data = response.json()
+                data = await response.json()
 
                 pc = data["RP"]["PC"]["val"]
                 ps = data["RP"]["PS4"]["val"]
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
