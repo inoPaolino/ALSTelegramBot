@@ -1,7 +1,7 @@
 import requests
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-
+import asyncio
 import threading
 import http.server
 import os
@@ -41,7 +41,8 @@ async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(latest_pred_data)
         
 async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
-    get_predator_cap()
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(None, get_predator_cap)
     # non succede nulla, serve solo per tenere il traffico attivo di dati
     print("API pingata")
     
@@ -66,6 +67,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
