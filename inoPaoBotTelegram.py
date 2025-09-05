@@ -49,7 +49,7 @@ async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
     # non succede nulla, serve solo per tenere il traffico attivo di dati
     print("API pingata")
     
-def main():
+async def main():
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("pred", pred))
     app.add_error_handler(error_handler)
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     asyncio.run(main())
+
 
 
 
