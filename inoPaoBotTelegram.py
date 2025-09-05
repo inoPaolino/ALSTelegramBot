@@ -39,8 +39,6 @@ async def error_handler(update, context: ContextTypes.DEFAULT_TYPE):
 async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message:
         await update.message.reply_text(latest_pred_data)
-    elif update.effective_chat:  # fallback: manda il messaggio al chat_id
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=latest_pred_data)
         
 async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
     get_predator_cap()
@@ -54,7 +52,7 @@ def main():
     
     get_predator_cap()
 
-    app.job_queue.run_repeating(keep_api_alive, interval=600, first=10)
+    app.job_queue.run_repeating(keep_api_alive, interval=600, first=60)
     app.run_polling()
         
 def keep_alive():
@@ -68,6 +66,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
