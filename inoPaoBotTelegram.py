@@ -15,19 +15,22 @@ def get_predator_cap():
     global latest_pred_data
     url = f"https://api.mozambiquehe.re/predator?auth={APEX_API_KEY}"
     try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        data = response.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=5) as response:
+                
+        #response = requests.get(url, timeout=5)
+        #response.raise_for_status()
+                data = response.json()
 
-        pc = data["RP"]["PC"]["val"]
-        ps = data["RP"]["PS4"]["val"]
-        xbox = data["RP"]["X1"]["val"]
+                pc = data["RP"]["PC"]["val"]
+                ps = data["RP"]["PS4"]["val"]
+                xbox = data["RP"]["X1"]["val"]
         
-        latest_pred_data = (
-            f"🏆 Predator Cap:\n"
-            f"💻 PC: {pc} RP\n🎮 PlayStation: {ps} RP\n🕹️ Xbox: {xbox} RP"
-        )
-        print("✅ Dati aggiornati dall'API")
+                latest_pred_data = (
+                    f"🏆 Predator Cap:\n"
+                    f"💻 PC: {pc} RP\n🎮 PlayStation: {ps} RP\n🕹️ Xbox: {xbox} RP"
+                )
+                print("✅ Dati aggiornati dall'API")
         
     except Exception as e:
         print(f"⚠️ Errore durante la richiesta: {e}")
@@ -41,8 +44,7 @@ async def pred(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(latest_pred_data)
         
 async def keep_api_alive(context: ContextTypes.DEFAULT_TYPE):
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(None, get_predator_cap)
+    await get_predator_cap()
     # non succede nulla, serve solo per tenere il traffico attivo di dati
     print("API pingata")
     
@@ -67,6 +69,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
