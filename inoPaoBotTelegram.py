@@ -11,7 +11,7 @@ APEX_API_KEY = os.getenv("APEX_API_KEY")
 
 latest_pred_data = "⚠️ Nessun dato ancora disponibile, riprova tra poco!"
 
-def get_predator_cap():
+async def get_predator_cap():
     global latest_pred_data
     url = f"https://api.mozambiquehe.re/predator?auth={APEX_API_KEY}"
     try:
@@ -69,6 +69,7 @@ if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
     main()
+
 
 
 
