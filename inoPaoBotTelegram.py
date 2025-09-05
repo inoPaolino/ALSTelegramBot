@@ -54,7 +54,7 @@ def main():
     app.add_handler(CommandHandler("pred", pred))
     app.add_error_handler(error_handler)
     
-    get_predator_cap()
+    await get_predator_cap()
 
     app.job_queue.run_repeating(keep_api_alive, interval=600, first=60)
     app.run_polling()
@@ -69,7 +69,8 @@ def keep_alive():
 if __name__ == "__main__":
     # Avvia il keep_alive in background
     threading.Thread(target=keep_alive, daemon=True).start()
-    main()
+    asyncio.run(main())
+
 
 
 
